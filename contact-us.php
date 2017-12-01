@@ -5,7 +5,7 @@
 <html lang="fa" dir="rtl">
 
 <head>
-    <title> ثبت نام قرعه کشی(لاتاری) گرین کارت </title>
+    <title>پشتیبانی (ثبت نام لاتاری)</title>
     <!--Meta Tags-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

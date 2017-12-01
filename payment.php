@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 
 <head>
-    <title> ثبت نام قرعه کشی(لاتاری) گرین کارت </title>
+    <title> ثبت نام لاتاری گرین کارت </title>
     <!--Meta Tags-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -52,7 +52,8 @@
 <?php
         include_once("scripts/payir/functions.php");
         include_once("scripts/register.php");        
-        $redirect = urlencode('http://localhost/myGreenCard/payment.php');
+        // $redirect = urlencode('http://mygreencard.ir'.$_SERVER['PHP_SELF']);
+        $redirect = urlencode('http://localhost//'.$_SERVER['PHP_SELF']);
         $factorNumber = null;
         $api = 'test';
         $amout=0;
