@@ -1,0 +1,189 @@
+@import url('fontiran.css');
+body {
+    font-family: IRANSans;
+    font-weight: 500;
+}
+
+.header {
+    background: rgb(47, 34, 231);
+    height: 100px;
+}
+
+h1 {
+    font-size: 22px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 19px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+legend {
+    font-size: 18px;
+}
+
+input,
+textarea,
+select option,
+input[placeholder],
+textarea[placholder] {
+    text-align: center;
+}
+
+.formStage {
+    display: none;
+    margin: 10px 5%;
+    padding: 20px;
+    border-radius: 5px;
+    -webkit-box-shadow: 5px 5px 30px 1px gray;
+    box-shadow: 5px 5px 30px 1px gray;
+}
+
+@media only screen and (min-width:401px) {
+    .formStage {
+        -webkit-box-shadow: 7px 7px 30px 1px gray;
+        box-shadow: 7px 7px 30px 1px gray;
+    }
+}
+
+
+/*   @media only screen and (min-width:480px) {
+     .form-group .col-md-8 {
+         max-width: 300px;
+     }
+ } 
+  */
+
+@media only screen and (min-width:992px) {
+    .form-group .col-md-8 {
+        max-width: 340px;
+    }
+}
+
+input[type=submit],
+input[type=button] {
+    margin: 15px 25px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 1em;
+}
+
+.form-horizontal .has-feedback .form-control-feedback {
+    left: 15px;
+    right: auto !important;
+}
+
+.date .bv-icon-input-group {
+    top: 0;
+    right: 50px !important;
+}
+
+.col-md-8.genderSelect i.form-control-feedback {
+    right: 50px !important;
+}
+
+.col-centered {
+    float: none;
+    margin: 0 auto;
+}
+
+.file-size-info {
+    direction: ltr;
+}
+
+hr.style-one {
+    border: 0;
+    height: 1px;
+    background: #333;
+    background-image: -webkit-gradient(linear, left top, right top, from(#ccc), color-stop(#333), to(#ccc));
+    background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc);
+    background-image: -o-linear-gradient(left, #ccc, #333, #ccc);
+    background-image: linear-gradient(to right, #ccc, #333, #ccc);
+}
+
+hr.style-two {
+    border: 0;
+    height: 1px;
+    background-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, 0)), color-stop(rgba(0, 0, 0, 0.75)), to(rgba(0, 0, 0, 0)));
+    background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+
+hr.style-four {
+    height: 12px;
+    border: 0;
+    -webkit-box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+}
+
+#panelBody [id^=childInfo] .childHeading {
+    font-size: 15px;
+}
+
+#panelBody [id^=childInfo] hr {
+    height: 12px;
+    border: 0;
+    -webkit-box-shadow: inset 0 12px 12px -12px #337ab7;
+    box-shadow: inset 0 12px 12px -12px #337ab7;
+    margin-bottom: 0px;
+    margin-top: 10px;
+}
+
+#panelBody [id^=childInfo]:last-child hr {
+    display: none;
+}
+
+#printTitle {
+    display: none;
+    margin-bottom: 20px;
+}
+
+
+/* Top progress Bar */
+
+#progressBar {
+    margin: 10px 5%;
+    padding: 20px;
+    border-radius: 5px;
+    -webkit-box-shadow: 5px 5px 30px 1px gray;
+    box-shadow: 5px 5px 30px 1px gray;
+    text-align: center;
+    font-size: 16px;
+}
+
+#progressBar .list-inline>li {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+@media only screen and (min-width:401px) {
+    #progressBar {
+        -webkit-box-shadow: 7px 7px 30px 1px gray;
+        box-shadow: 7px 7px 30px 1px gray;
+    }
+}
+
+.activeProgress {
+    color: rgb(77, 24, 221);
+}
+
+.completedProgress {
+    color: rgb(83, 173, 113);
+}
+
+#firstStageError>i,
+#secondStageError>i {
+    cursor: pointer;
+}

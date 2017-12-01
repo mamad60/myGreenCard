@@ -1,0 +1,10 @@
+@media only print {
+    footer,
+    h1,
+    [type="button"] {
+        display: none;
+    }
+    body {
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,51 @@
+@import url('fontiran.css');
+.modal {
+    font-family: IRANSans;
+    font-weight: normal;
+    font-size: 16px;
+    background-image: url('../images/contact-back.jpg');
+    background-repeat: repeat;
+}
+
+body.modal-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}
+
+.modal {
+    text-align: center;
+    padding: 0!important;
+}
+
+@media only screen and (min-width: 575px) {
+    .modal:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+        margin-left: -4px;
+        /* Adjusts for spacing */
+    }
+}
+
+.modal-dialog {
+    display: inline-block;
+    text-align: right;
+    vertical-align: middle;
+}
+
+#result {
+    padding: 1em;
+    font-weight: 500;
+    display: none;
+}
+
+input,
+input[placehoder] {
+    text-align: center;
+}
+
+input::-webkit-validation-bubble-icon {
+    float: right;
+}

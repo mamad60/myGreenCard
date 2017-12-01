@@ -1,0 +1,132 @@
+#footer {
+    font-size: 1.4rem;
+    letter-spacing: -0.03em;
+    color: rgba(255, 255, 255, 0.6);
+    background: #313131;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #1a1d2b), color-stop(100%, #313131));
+    background: -webkit-linear-gradient(top, #555555 0%, #313131 100%);
+    background: -o-linear-gradient(top, #555555 0%, #313131 100%);
+    background: -webkit-gradient(linear, left top, left bottom, from(#555555), to(#313131));
+    background: linear-gradient(to bottom, #555555 0%, #313131 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#555555', endColorstr='#313131', GradientType=0);
+}
+
+#footer h2 {
+    font-size: 1.8rem;
+    text-shadow: rgba(0, 0, 0, 0.3) 3px 3px 5px;
+    margin-top: 10px;
+}
+
+#footer>.container {
+    padding-top: 10px;
+    margin-bottom: 10px;
+}
+
+#footer .copyright {
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    text-align: right;
+    font-size: 1.2rem;
+    font-weight: 600
+}
+
+#footer .copyright .copyrightText {
+    display: inline-block;
+    padding-right: 2rem;
+}
+
+#footer .copyright .copyrightLogo {
+    display: inline-block;
+}
+
+#footer a {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+}
+
+#footer a:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+#footer hr {
+    border: 0;
+    margin: 20px 0;
+    border-bottom: rgba(255, 255, 255, 0.1) 1px solid;
+    border-top: rgba(0, 0, 0, 0.4) 1px solid;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#footer h1,
+#footer h2,
+#footer h3,
+#footer h4,
+#footer h5,
+#footer h6 {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 600;
+}
+
+
+/* footer contact text */
+
+#footer .address {
+    background: url('../images/world-map.png') no-repeat center;
+    background-size: contain;
+}
+
+#telnumber:hover {
+    direction: ltr;
+    content: '(933)8337053';
+    color: rgba(255, 255, 255, 0.9);
+    direction: ltr !important;
+}
+
+#telegramID {
+    direction: ltr !important;
+}
+
+#telegramID:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+#footer .copyright {
+    padding-right: 10px;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+#footer .copyright {
+    direction: ltr !important;
+}
+
+@media only screen and (max-width:767px) {
+    #footer {
+        font-size: 1.1rem;
+    }
+    #footer h2 {
+        font-size: 1.3rem;
+    }
+    #footer .copyright .copyrightText {
+        padding-right: 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+    #footer ul {
+        margin-bottom: 0;
+    }
+}
+
+#footer #payirTrust {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    height: 50px;
+    width: auto;
+}
+
+@media only screen and (max-width:767px) {
+    #footer #payirTrust {
+        height: 40px;
+        width: auto;
+    }
+}
