@@ -14,6 +14,7 @@
     <meta name="description" content="سایت ثبت نام در قرعه کشی گرین کارت آمریکا-فرم ثبت نام">
     <meta name="keywords" content="بهترین, ساده ترین, سریع ترین, گرین کارت, ثبت نام, آمریکا,ثبت نام در قرعه کشی گرین کارت,لاتاری,Greencard">
     <meta name="author" content="Mohammad Aghakhani">
+    <link rel="shortcut icon" href="favicon.ico">
     <!--==============================================================-->
         <!-- optionally uncomment line below if using a theme or icon set like font awesome (note that default icons used are glyphicons and `fa` theme can override it) -->
     <link rel="stylesheet" href="css/font-awesome.min.css">

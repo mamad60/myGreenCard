@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<html lang="fa" dir="rtl">
 <head>
     <title>شرایط عکس لاتاری گرین کارت آمریکا</title>
     <!--Meta Tags-->
@@ -9,6 +9,7 @@
     <meta name="description" content="سایت ثبت نام در قرعه کشی گرین کارت آمریکا-فرم ثبت نام">
     <meta name="keywords" content="بهترین, ساده ترین, سریع ترین, گرین کارت, ثبت نام, آمریکا,ثبت نام در قرعه کشی گرین کارت,لاتاری,Greencard">
     <meta name="author" content="Mohammad Aghakhani">
+    <link rel="shortcut icon" href="favicon.ico">
     <!--==============================================================-->
     <!--BoottStrap-->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -16,7 +17,7 @@
     <!---=============BootStrap RTL-->
     <link rel="stylesheet" type="text/css" href="css/bootstrap-rtl.min.css">
     <!-- Site specefic -->
-    <link rel="stylesheet" type="text/css" href="css/page.css">;
+    <link rel="stylesheet" type="text/css" href="css/page.css">
 
     <!-- FullPage.js plugin -->
     <!--For old Browser use HTMLshiv-->
@@ -33,7 +34,6 @@
     <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js"></script>
 </head>
-<html lang="fa" dir="rtl">
 
 <body>
     <nav></nav>

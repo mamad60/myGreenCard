@@ -29,7 +29,7 @@ function sendMail($from,$to,$subject,$body){
     $headers .= "From:".$from."\r\n";
     
     //ارسال ایمیل
-    if (mail($to, '=?UTF-8?B?'.base64_encode($subject).'?=', $body, $headers)) {
+    if (!mail($to, '=?UTF-8?B?'.base64_encode($subject).'?=', $body, $headers)) {
         // die("<p>خطا در ارسال ایمیل! تنظیمات سرور شما از این امکان پشتیبانی نمی کند</p>");
     return 0;
     }

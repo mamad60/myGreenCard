@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <?php 
     include_once  'scripts/securimage/securimage.php';
+    session_start();
+    if(!isset($_SESSION['active_contact_form']) || $_SESSION['active_contact_form']==false )
+    {
+        $_SESSION['active_contact_form']=true;
+    }
+    else{
+        //simply go to homepage
+        header("Location: index.php");
+    }
 ?>
 <html lang="fa" dir="rtl">
 
@@ -13,6 +22,7 @@
     <meta name="description" content="سایت ثبت نام در قرعه کشی گرین کارت آمریکا-فرم ثبت نام">
     <meta name="keywords" content="بهترین, ساده ترین, سریع ترین, گرین کارت, ثبت نام, آمریکا,ثبت نام در قرعه کشی گرین کارت,لاتاری,Greencard">
     <meta name="author" content="Mohammad Aghakhani">
+    <link rel="shortcut icon" href="favicon.ico">
     <!--==============================================================-->
     <!--BoottStrap-->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -32,6 +42,7 @@
                 $("body").addClass("modal-open");
             }).on("hidden.bs.modal	", function () {
                 $("body").removeClass("modal-open");
+                $.post("scripts/hidecontact.php", { "hints":"off" });
                 window.history.back();
             });
             // show the modal on load
@@ -61,7 +72,7 @@
                         // console.log('Error');
                         $('#result').html(response.message).removeClass('text-success').addClass(
                             'text-danger').fadeIn();
-                        setTimeout("$('#contactModal').modal('hide');", 300000);
+                        setTimeout("$('#contactModal').modal('hide');", 3000);
                     }
                     return true;
                 }).fail(function (jqXHR, textStatus, errorThrown) {

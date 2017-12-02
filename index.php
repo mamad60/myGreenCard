@@ -10,6 +10,7 @@
     <meta name="description" content="سایت ثبت نام در قرعه کشی گرین کارت آمریکا-فرم ثبت نام">
     <meta name="keywords" content="بهترین, ساده ترین, سریع ترین, گرین کارت, ثبت نام, آمریکا,ثبت نام در قرعه کشی گرین کارت,لاتاری,Greencard">
     <meta name="author" content="Mohammad Aghakhani">
+    <link rel="shortcut icon" href="favicon.ico">
     <!--==============================================================-->
     <!--BoottStrap-->
     <link rel="stylesheet" href="css/bootstrap.min.css">

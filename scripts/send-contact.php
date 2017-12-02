@@ -28,18 +28,32 @@ if (isset($_POST["email"])) { //Checks if action value exist
 }    
 if (isset($_POST["comment"])) { //Checks if action value exist
     $comment=$_POST["comment"];
-}    
+} 
+//replace \n with <br/> in comment
+// $comment=htmlentities($comment);
+$comment=str_replace("\n","   <br/>",$comment);   
 //====send form to admin
 $from='admin@mygreencard.ir';
-$to = 'info@mygreencard.ir';
-$subject = 'Contact Form MyGreenVard';
+    $to = 'info@mygreencard.ir';
+$subject = 'Contact Form MyGreenCard '.$firstName.'  '.$lastname;
 $body = "<html>
-        <body>
-        <div dir='rtl'>سلام، \n\n درخواست پشتیبانی جدید در سایت MygreenCard</div>
-        firstName=$firstName\n\n
-        LastName=$lastname\n\n
-        Email=$email;
-        Comment=$comment
+        <body lang='fa'  dir='rtl'  style='font-size:16px;'>
+        <div style='font-weight:bold;'>
+        سلام،
+        <br/>
+          درخواست پشتیبانی جدید در سایت MygreenCard
+        </div>
+        <br/>
+        نام=$firstName
+        <br/>        
+        نام خانوادگی=  $lastname
+        <br/>        
+        آدرس ایمیل= $email
+        <br/>        
+        پیغام:
+        <br/>
+         $comment
+        <br/>        
         </html>
         </body>";
 $mailStat=sendMail($from,$to,$subject,$body);
@@ -51,13 +65,21 @@ $from='info@mygreencard.ir';
 $to = $email;
 $subject = 'Mygreencard Support';
 $body = "<html>
-        <body>
+        <body lang='fa' style='font-size:16px;'>
         <div dir='rtl'>
         با سلام
-        \n\n
-        کاربر محترم, آقای/حانم  $firstName  $lastname درخواست پشتیبانی شما در سایت MygreenCard.ir دریافت شد\n\n
-        \n\nکارشناسان ما بزودی با شما تماس می گیرند
-        با تشکر,  سایت Myreencar.ir
+        <br/>
+          کاربر محترم, آقای/خانم <strong>$firstName  $lastname</strong> درخواست پشتیبانی شما در سایت <a href='http://myreencard.ir' target='_blank'>mygreencard.ir</a> دریافت شد
+          <br/>
+            کارشناسان ما بزودی با شما تماس می گیرند.
+        <br/>
+        <br/>
+        <strong>پیغام شما:</strong>
+        <br/>
+         $comment
+        <br/>
+        <br/>       
+        با تشکر,  سایت <a href='http://myreencard.ir' target='_blank'>mygreencard.ir</a>
         </div>     
         </html>
         </body>";
