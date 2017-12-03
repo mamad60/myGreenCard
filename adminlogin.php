@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?php session_start();?>
 <html lang="fa" dir="rtl">
 <head>
     <title>صفحه مدیریت-ثبت نام لاتاری</title>
@@ -47,11 +48,18 @@
     </header>
     <?php
     include_once("scripts/config.php");
-    session_start();
-    // check login Attekps
+    //IF Admin is autohonticated direcrly go to admin page
+    if(isset($_SESSION['Authonticated']))
+    {
+        if($_SESSION['Authonticated']){
+        $go = "admin.php";
+        header("Location: $go"); 
+        }
+    }
+    // check login Attemps
     if(!isset($_SESSION['loginAttemps']))
     {
-        $_SESSION['loginAttemps']=0; 
+        $_SESSION['loginAttemps']=1; 
     } else {
         // Check for maximun login attemps
         if($_SESSION['loginAttemps']>3)
@@ -62,7 +70,8 @@
                });
                </script>";  
                $go = "index.php";
-               header("Location: $go");               
+               unset($_SESSION['loginAttemps']);                             
+               header("Location: $go"); 
         }else{
         $_SESSION['loginAttemps']++;        }
     }
@@ -72,6 +81,7 @@
         $user_password= test_input($_POST["password"]);
     // check user name and password
     if($user_name==$admin_user && $user_password==$admin_password){ 
+        // if userneme and password  match
         echo "<script type=\"text/javascript\">
         $(document).ready(function() {
         $(\"#loginError\").hide();
@@ -79,10 +89,12 @@
        });
        </script>";
        $_SESSION['Authonticated']=true;
+       $_SESSION['AdminName']=$user_name;       
        $go = "admin.php";
        header("Location: $go");
     }
     else{
+        // if userneme and password  match
         echo "<script type=\"text/javascript\">
         $(document).ready(function() {
         $(\"#loginError\").fadeIn();

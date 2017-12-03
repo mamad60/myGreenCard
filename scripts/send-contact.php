@@ -6,6 +6,11 @@ session_start();
 if (!is_ajax()) { // If it is real Ajax Request}
     die('NO Ajax Request!');
 }
+//if contact form is active
+// if(!isset($_SESSION['active_contact_form']))
+// {
+//     $output['error']=true;   
+//     $output['message']= 'لطفا فقط از یک نسخه از فرم پشتیبانی استفاده کنید.';}
 if(!check_captcha()){
     $output['error']=true;   
     $output['message']= 'لطفا کد تصویر را بدرستی وارد نمائید.';

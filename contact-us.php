@@ -2,14 +2,14 @@
 <?php 
     include_once  'scripts/securimage/securimage.php';
     session_start();
-    if(!isset($_SESSION['active_contact_form']) || $_SESSION['active_contact_form']==false )
-    {
-        $_SESSION['active_contact_form']=true;
-    }
-    else{
-        //simply go to homepage
-        header("Location: index.php");
-    }
+    // if(!isset($_SESSION['active_contact_form']) || $_SESSION['active_contact_form']==false )
+    // {
+    //     $_SESSION['active_contact_form']=true;
+    // }
+    // else{
+    //     //simply go to homepage
+    //     header("Location: index.php");
+    // }
 ?>
 <html lang="fa" dir="rtl">
 
@@ -42,7 +42,9 @@
                 $("body").addClass("modal-open");
             }).on("hidden.bs.modal	", function () {
                 $("body").removeClass("modal-open");
-                $.post("scripts/hidecontact.php", { "hints":"off" });
+                // $.post("scripts/ajaxphpfunctions.php", {
+                //     "function": "hide_contact"
+                // });
                 window.history.back();
             });
             // show the modal on load
@@ -67,17 +69,18 @@
                             'text-success').fadeIn();
                         $('#contactForm input[type="submit"]').prop('disabled', 'true');
                         $('#contactForm input[type="reset"]').prop('disabled', 'true')
-                        setTimeout("$('#contactModal').modal('hide');", 60000);
+                        setTimeout(function(){$('#contactModal').modal('hide');}, 300000);
                     } else {
                         // console.log('Error');
                         $('#result').html(response.message).removeClass('text-success').addClass(
                             'text-danger').fadeIn();
-                        setTimeout("$('#contactModal').modal('hide');", 3000);
-                    }
+                            setTimeout(function(){$('#contactModal').modal('hide');}, 30000);
+                        }
                     return true;
                 }).fail(function (jqXHR, textStatus, errorThrown) {
                     // Log the error to the console
                     console.error('The following error occurred: ' + textStatus, errorThrown);
+                    setTimeout(function(){$('#contactModal').modal('hide');}, 30000);
                     return false;
                 }).always(function (response) {
                     $('#contactForm input[type="submit"]').removeAttr('disabled')
@@ -104,10 +107,10 @@
                 // invalid, we have to remove the message first
                 textfield.setCustomValidity('');
                 if (!textfield.validity.valid) {
-                    if(textfield.validity.valueMissing){
-                    textfield.setCustomValidity('لطفا این قسمت را پر کنید');
-                    } else{
-                        textfield.setCustomValidity('لطفایک ایمیل معتبر وارد کنید');  
+                    if (textfield.validity.valueMissing) {
+                        textfield.setCustomValidity('لطفا این قسمت را پر کنید');
+                    } else {
+                        textfield.setCustomValidity('لطفایک ایمیل معتبر وارد کنید');
                     }
                 }
             });

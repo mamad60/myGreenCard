@@ -1279,26 +1279,26 @@
                 // Get plugin instance
                 var bootstrapValidator = $('#mainApplicantForm').data('bootstrapValidator');
                 bootstrapValidator.validate();
-                if (view.firstStage.isPhotosUploaded() && bootstrapValidator.isValid()) {
-                    $('#firstStageError').hide();
-                    view.firstStage.next();
-                } else {
-                    $(window).scrollTop(0);
-                    $('#firstStageError').slideDown();
-                }
+                // if (view.firstStage.isPhotosUploaded() && bootstrapValidator.isValid()) {
+                $('#firstStageError').hide();
+                view.firstStage.next();
+                // } else {
+                //     $(window).scrollTop(0);
+                //     $('#firstStageError').slideDown();
+                // }
             });
             //==== Attatch event to submit button of stage 2
             $('#nextStage2').click(function() {
                 // Get plugin instance
                 var bootstrapValidator = $('#spouseChildrenForm').data('bootstrapValidator');
                 bootstrapValidator.validate();
-                if (view.firstStage.isPhotosUploaded() && bootstrapValidator.isValid()) {
-                    $('#secondStageError').hide();
-                    view.secondStage.next();
-                } else {
-                    $(window).scrollTop(0);
-                    $('#secondStageError').slideDown();
-                }
+                // if (view.firstStage.isPhotosUploaded() && bootstrapValidator.isValid()) {
+                $('#secondStageError').hide();
+                view.secondStage.next();
+                // } else {
+                //     $(window).scrollTop(0);
+                //     $('#secondStageError').slideDown();
+                // }
             });
             //==== Attatch event PAY Botton---- stage 3
             $('#payandSubmit').click(function() {
@@ -1397,10 +1397,11 @@
                 var bootstrapValidator = $('#mainApplicantForm').data('bootstrapValidator');
                 if ($('#mainMaridgStatus option:selected').val() == 'Single') {
                     //    disable number of children
-                    bootstrapValidator.resetField('mainChildNumber');
+                    bootstrapValidator.resetField('mainChildNumber', true);
                     $('#mainChildNumber').attr('disabled', true);
+                    $('#mainChildNumber').val(0);
                 } else {
-                    bootstrapValidator.resetField('mainChildNumber');
+                    bootstrapValidator.resetField('mainChildNumber', true);
                     $('#mainChildNumber').attr('disabled', false);
                 }
             });

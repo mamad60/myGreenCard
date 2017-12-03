@@ -90,17 +90,16 @@
             if($result->status) {
                 $go = "https://pay.ir/payment/gateway/$result->transId";
                 header("Location: $go");
-            } else {
+            } else { // No TransID
                     $error=$result->errorMessage;
                     echo "<script type=\"text/javascript\">
                     $(document).ready(function() {
                     $(\"#resultContainer\").find(\".panel-heading\").css(\"background-color\",\"red\").css(\"background-image\", \"linear-gradient(to bottom,IndianRed	 0,FireBrick 100%)\");
-                    $(\"#result\").html(\"<p>مشکلی در فرآیند پرداخت پیش آمده است.</p>\").addClass(\"text-danger\").show();
+                    $(\"#result\").html(\"<p>مشکلی در فرآیند پرداخت پیش آمده است.</p>\").removeClass(\"text-success\").addClass(\"text-danger\").show();
                     $(\"#transId\").html(\"شماره تراکنش: $transId \").show();
                     $(\"#resultContainer\").show();
                    });
                   </script>";
-                  session_destroy();
                 } 
         }        
     
@@ -124,10 +123,11 @@
                     $paid=((int)($result->amount))/10;                    
                     if(empty($output['error'])){ //SuccesFull save To DB
                             $trackingCode=$output['TrackingCode'];
+                            $sucessMsg="آقای/خانم"."  <strong>".$_SESSION['Applicant']['FirstName_fa']." ".$_SESSION['Applicant']['LastName_fa']."</strong>  "."ثبت نام شما با موفقیت انجام شد.";
                             echo "<script type=\"text/javascript\">
                             $(document).ready(function() {
                                 $(\"#resultContainer\").find(\".panel-heading\").css(\"background-color\",\"green\").css(\"background-image\", \"linear-gradient(to bottom,SpringGreen 0,MediumSeaGreen 100%)\");
-                            $(\"#result\").html(\"ثبت نام شما با موفقیت انجام شد.\").addClass(\"text-success\").show();
+                            $(\"#result\").html(\"$sucessMsg\").removeClass(\"text-danger\").addClass(\"text-success\").show();
                             $(\"#amount\").html(\"مبلغ پرداختی: $paid تومان\").show();
                             $(\"#transId\").html(\"شماره تراکنش: $transId \").show();
                             $(\"#trackingCode\").html(\"کد رهگیری:  $trackingCode \").show();
@@ -141,19 +141,23 @@
                                 });
                                 </script>";                               
                             }
-                            session_destroy();
+                            unset($_SESSION['Applicant']);
+                            unset($_SESSION['Spouse']);
+                            unset($_SESSION['Children']);
+                            unset($_SESSION['Price']);
+                            unset($_SESSION['TransId']);
                         }
                     else{    // Save to DB Failed
                             echo "<script type=\"text/javascript\">
                             $(document).ready(function() {
                             $(\"#resultContainer\").find(\".panel-heading\").css(\"background-color\",\"red\").css(\"background-image\", \"linear-gradient(to bottom,IndianRed	 0,FireBrick 100%)\");
-                            $(\"#result\").html(\"<p>متاسفانه در حال حاضر قادر به ذخیره اطلاعات شما در سرور نیستیم.</p><p>لطفا اطلاعات زیر را ذخیره کرده و با پشتیبانی تماس بگیرید</p>\").addClass(\"text-danger\").show();
+                            $(\"#result\").html(\"<p>متاسفانه در حال حاضر قادر به ذخیره اطلاعات شما در سرور نیستیم.</p><p>لطفا اطلاعات زیر را ذخیره کرده و با پشتیبانی تماس بگیرید</p>\").addClass(\"text-success\").addClass(\"text-danger\").show();
                             $(\"#amount\").html(\"مبلغ پرداختی: $paid تومان\").show();
                             $(\"#transId\").html(\"شماره تراکنش: $transId \").show();                    
                             $(\"#resultContainer\").show();
                         });
                            </script>";
-                           session_destroy();
+                           
                 }    
                 } else { // No TransID is is Send
                     echo "<script type=\"text/javascript\">
@@ -164,7 +168,7 @@
                       $(\"#resultContainer\").show();
                      });
                     </script>";
-                    session_destroy();
+                    
                 }
             } else { //duplicate TransAction
                 echo "<script type=\"text/javascript\">
@@ -175,19 +179,15 @@
                 $(\"#resultContainer\").show();
                });
               </script>";
-              session_destroy();
+              
             }
         }
 // Function to check uniqness of TransID in DB
 function isUniqueTransId($TransId){
         // see if transId is uinque in the database
-        // Setup Connection to the MySQL database
-    $servername = 'localhost';
-    $username = 'Mohammad';
-    $password = '7QfAgRrsTb4fjC0Y';
-
+    include_once("scripts/config.php");
     try {
-        $conn = new PDO("mysql:host=$servername;dbname=mygreencard;charset=utf8", $username, $password);
+        $conn = new PDO("mysql:host=$db_servername;dbname=mygreencard;charset=utf8", $db_username, $db_password);
         // set the PDO error mode to exception
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {

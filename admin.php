@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+<?php session_start();?>
 <html lang="fa" dir="rtl">
+
 <head>
     <title>صفحه مدیریت-ثبت نام لاتاری</title>
     <!--Meta Tags-->
@@ -34,78 +36,180 @@
     <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js"></script>
     <style>
-        #loginForm{ width:200px; margin-top:30px; margin-bottom:30px; margin: 0; position: absolute; top: 50%; left: 50%; transform:
-        translate(-50%, -50%); } #userName, #password{ direction:ltr; text-align: center; }
-        </style>
+        #authonticationError {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            font-size: 20px;
+        }
+
+        #userName,
+        #password {
+            direction: ltr;
+            text-align: center;
+        }
+
+        #adminPage {
+            display: none;
+        }
+
+        #topStrip {
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        #adminSearchLabel {
+            font-weight: bold;
+        }
+
+        #searchResult {
+            font-size: 16px;
+            margin-top: 1px;
+            margin-bottom: 10px;
+        }
+
+        @media (min-width: 768px) {
+            .form-inline .form-group {
+                margin-bottom: 5px;
+                margin-right:5px;
+            }
+            .form-inline .form-group .form-control {
+                max-width: 120px;
+            }
+            #searchID,#searchTransID {
+                max-width: 60px;
+            }
+        }
+    </style>
 </head>
+
 <body>
     <nav></nav>
-    <header>
-    </header>
     <?php
-    include_once("scripts/config.php");
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["userName"]) && isset($_POST["password"])) {
-        $user_name = test_input($_POST["userName"]);
-        $user_password= test_input($_POST["password"]);
-    // check user name and password
-    if($user_name==$admin_user && $iuser_password==$admin_password){ 
+    include_once("scripts/config.php");       
+    $username="";
+    if(isset($_SESSION["AdminUser"])){
+        $admin_user=$_SESSION["AdminUser"];
+    }
+    if (isset($_SESSION["Authonticated"])) {
+        if($_SESSION["Authonticated"]){
+            echo "<script type=\"text/javascript\">
+            $(document).ready(function() {
+            $(\"#authonticationError\").hide();        
+            $(\"#adminPage\").fadeIn();
+            });
+            </script>";
+    } else{
+    // if not Authonticated
         echo "<script type=\"text/javascript\">
         $(document).ready(function() {
-        $(\"#loginError\").hide();
-        $(\"#loginForm\").fadeOut(\"slow\");
-       });
-       </script>";
-    }
-    else{
+        $(\"#authonticationError\").fadeIn();
+        });
+        setTimeout(function(){history.back();}, 3000);
+        </script>";
+    }       
+    } else {
+        // if not Authonticated
         echo "<script type=\"text/javascript\">
         $(document).ready(function() {
-        $(\"#loginError\").fadeIn();
-       });
-       </script>";  
+        $(\"#authonticationError\").fadeIn();
+        });
+        setTimeout(function(){history.back();}, 3000);
+        </script>";
     }
-}
-    function test_input($data) {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
-      }
-    ?>
-        <form class="container" id="loginForm" method="POST" action="">
-            <div class="row form-control-static text-danger" style="display:none;" id="loginError">
-                نام کاربری یا رمز عبور اشتباه است.
+        ?>
+        <div id="authonticationError" class="text-center text-danger">شما اجازه دسترسی به این صفحه را ندارید.</div>
+        <div id="adminPage" class="container">
+            <div class="container" id="topStrip">
+                <div class="col-md-6 text-right" id="welcomeMessage">
+                    مدیر محترم کاربر
+                    <?php echo $admin_user?> خوش آمدید
+                </div>
+                <div class="col-md-6 text-left">
+                    <a href="#" id="logout">خروج</a>
+                </div>
             </div>
-            <div class="row form-group">
-                <label for="userName" class="form-label">نام کاربری: </label>
-                <br>
-                <input name="userName" class="form-control" id="userName" type="text" required>
-            </div>
-            <div class="row form-group">
-                <label for="password" class="form-label">رمز ورود: </label>
-                <br>
-                <input name="password" class="form-control" id="password" type="password" required>
-            </div>
-            <div class="row text-center">
-                <input type="submit" class="btn btn-primary" value="ورود" id="submit">
-                <input type="reset" class="btn btn-danger" value="پاک کردن" id="reset" style="margin-right:10px;">
-            </div>
-        </form>
+            <!--Search Box-->
+            <form id="searchForm" class="form-inline">
+                    <div class="form-group">
+                        <label for="searchID" class="control-label">ID: </label>
+                        <input type="tel" name="searchID" class="form-control" id="searchID">
+                    </div>
+                    <div class="form-group">
+                        <label for="searchTrackingCode">کد رهگیری: </label>
+                        <input type="text" name="searchTrackingCode" class="form-control" id="searchTrackingCode">
+                    </div>
+                    <div class="form-group">
+                        <label for="searchTransID" class="control-label">شماره تراکنش: </label>
+                        <input type="tel" name="searchTransID" class="form-control" id="searchTransID">
+                    </div>
+                    <div class="form-group">
+                        <label for="searchTrackingCode">کد رهگیری: </label>
+                        <input type="text" name="searchTrackingCode" class="form-control" id="searchTrackingCode">
+                    </div>
+                    <div class="form-group">
+                        <label for="searchFirstName" class="control-label">نام(فارسی): </label>
+                        <input type="text" name="searchFirstName" class="form-control" id="searchFirstName">
+                    </div>
+                    <div class="form-group">
+                        <label for="searchLastName" class="control-label">نام خانوادگی(فارسی): </label>
+                        <input type="text" name="searchLastName" class="form-control" id="searchLastName">
+                    </div>
+                    <div class="text-center">
+                        <input type="button" class="btn btn-primary" value="اجرا" id="searchSubmit">
+                        <input type="reset" class="btn btn-danger" value="پاک کردن" id="SearchReset" style="margin-right:10px;">
+                    </div>
+                    <sp id="searchResult" class="row col-sm-12 text-right">خلاصه نتیجه جستجو:  <span id="adminSearchResult"></span></div>
+            </form>
+        </div>
         <footer></footer>
         <script>
             $(document).ready(function () {
                 //Load header and Footer
                 //====header
-                $('nav').load('menu.html', function () {
-                    //===make current Page Active
-                    $('#myNavbar').find('li a[href="' + window.location.pathname.split('/').pop() +
-                            '"]').parent()
-                        .addClass('active');
+                $('nav').load('menu.html');
+                // bind event to logout
+                $('#logout').click(function () {
+                    $.post("scripts/ajaxphpfunctions.php", {
+                        "function": "admin_logout"
+                    });
+                    // go back
+                    window.location.href = 'index.php';
                 });
-            //     //===Footer
-            //     $('footer').load('footer.html', function () {
-            //     });
+                // bind event to Serch Form Submit
+                $('#searchSubmit').click(function () {
+                    // Fire off the request to form.php
+                    var dataSend = $('#searchForm').serialize();
+                    dataSend += "&function=admin_query"
+                    var request = $.ajax({
+                        url: "scripts/ajaxphpfunctions.php",
+                        type: 'post',
+                        dataType: 'JSON',
+                        data: dataSend
+                    }).done(function (response) {
+                        // Sucssessful
+                        if (!response.error) {
+                            $('#adminSearchResult').text(response.message).removeClass(
+                                'text-danger').addClass('text-success');
+                        } else {
+                            $('#adminSearchResult').text(response.message).removeClass(
+                                'text-success').addClass('text-danger');
+                        }
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        // Log the error to the console
+                        console.error('The following error occurred: ' + textStatus,
+                            errorThrown)
+                        $('#adminSearchResult').text(
+                            "مشکلی در ارسال و دریافت اطلاعات رخ داده است.").removeClass(
+                            'text-success').addClass('text-danger');
+                        return false;
+                    });;
+                });
             });
         </script>
+
 </body>
 
 </html>

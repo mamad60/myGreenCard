@@ -2,7 +2,11 @@
 
 function saveToDB(){   
     include_once("functions.php");
-    include_once("config.php");
+    // require_once("./scripts/config.php");
+        // Setup Connection to the MySQL database
+    $db_servername = 'localhost';
+    $db_username = 'Mohammad';
+        $db_password = '7QfAgRrsTb4fjC0Y';
     $output['error']=[]; //Returned varibles to caller
     $output['TrackingCode']='';
     // Main Applicant Data
@@ -25,7 +29,7 @@ function saveToDB(){
         die('NO Applicant Data');
     }
     try {
-        $conn = new PDO("mysql:host=$db_servername;dbname=mygreencard;charset=utf8", $db_username, $db_password);
+        $conn = new PDO("mysql:host=$db_servername;dbname=mygreencard;charset=utf8", $db_username,$db_password);
         // set the PDO error mode to exception
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
@@ -38,8 +42,7 @@ function saveToDB(){
         FirstName_fa,LastName_fa,FirstName_en,LastName_en,Gender,BirthDate,
         BirthDate_Georgian,BirthCity,BirthCountry,Address,ZipCode,TelNumber,
         Education,ChildNumber,Email,MaridgStatus,hasSpouse,hasChildren,PhotoURL) 
-        VALUES ('
-        ".$applicant['FirstName_fa']."','".$applicant['LastName_fa']."',
+        VALUES ('".$applicant['FirstName_fa']."','".$applicant['LastName_fa']."',
         '".$applicant['FirstName_en']."','".$applicant['LastName_en']."',
         '".$applicant['Gender']."','".$applicant['BirthDate']."',
         '".$applicant['BirthDate_Georgian']."','".$applicant['BirthCity']."',
@@ -62,8 +65,7 @@ function saveToDB(){
                     $sql = "INSERT INTO spouse (
             FirstName_fa,LastName_fa,FirstName_en,LastName_en,Gender,BirthDate,
             BirthDate_Georgian,BirthCity,BirthCountry,PhotoURL,ApplicantID) 
-            VALUES ('
-            ".$spouse['FirstName_fa']."','".$spouse['LastName_fa']."',
+            VALUES ('".$spouse['FirstName_fa']."','".$spouse['LastName_fa']."',
             '".$spouse['FirstName_en']."','".$spouse['LastName_en']."',
             '".$spouse['Gender']."','".$spouse['BirthDate']."',
             '".$spouse['BirthDate_Georgian']."','".$spouse['BirthCity']."',
@@ -85,8 +87,7 @@ function saveToDB(){
                     $sql = "INSERT INTO children (
             FirstName_fa,LastName_fa,FirstName_en,LastName_en,Gender,BirthDate,
             BirthDate_Georgian,BirthCity,BirthCountry,PhotoURL,ApplicantID) 
-            VALUES ('
-            ".$child['FirstName_fa']."','".$child['LastName_fa']."',
+            VALUES ('".$child['FirstName_fa']."','".$child['LastName_fa']."',
             '".$child['FirstName_en']."','".$child['LastName_en']."',
             '".$child['Gender']."','".$child['BirthDate']."',
             '".$child['BirthDate_Georgian']."','".$child['BirthCity']."',
