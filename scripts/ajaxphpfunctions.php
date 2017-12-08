@@ -22,6 +22,12 @@ switch($_POST["function"]){
         case "admin_query":
         admin_query();
         break;
+        case "query_fetch":
+        query_fetch();
+        break;
+        case "query_delete":
+        query_delete();
+        break;
 }
 echo json_encode($output);
 //functions
@@ -60,16 +66,146 @@ function admin_query(){
         $output['error'][]='Databsase Error,'.'Connection failed: ' . $e->getMessage();
     }
     $number_of_rows=$stmt->rowCount();
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Get all applicant matching the query
+    $applicants = $stmt->fetchAll(PDO::FETCH_ASSOC);  // Select All Applicants matching the query
+    //Iterate over ech applicatn and store spouse and children if exit
+    $index=0;
+    foreach($applicants as $applicant)
+    {
+        $records[$index]['applicant']=$applicant;
+        $applicantID=$applicant['ID'];
+        if($applicant['hasSpouse']){ // if applicant has spouse fill it
+            $sql="SELECT * FROM spouse WHERE ApplicantID=$applicantID";    
+            try {
+                $stmt = $conn->query($sql);
+            } catch (PDOException $e) {
+                $output['error']=true;        
+                $output['error'][]='Databsase Error,'.'Query Failed: ' . $e->getMessage();
+            }       
+            $spouse = $stmt->fetchAll(PDO::FETCH_ASSOC)[0];  // Select All Applicants matching the query            
+            $records[$index]['spouse']=$spouse;
+        } else {
+            $records[$index]['spouse']=null;            
+        }
+        if($applicant['hasChildren']){ // if applicant has spouse fill it
+            $sql="SELECT * FROM children WHERE ApplicantID=$applicantID";    
+            try {
+                $stmt = $conn->query($sql);
+            } catch (PDOException $e) {
+                $output['error']=true;        
+                $output['error'][]='Databsase Error,'.'Query Failed: ' . $e->getMessage();
+            }       
+            $children = $stmt->fetchAll(PDO::FETCH_ASSOC);  // Select All Applicants matching the query            
+            $records[$index]['children']=$children;
+        } else {
+            $records[$index]['children']=null;            
+        }
+        $index++;
+    }
+    //put result to output
+    $output['records']=$records;
+    $output['totalRows']=$number_of_rows;
+    //return message and error
     $output['error']=false;;
     $output['message']='نتیجه آخرین جستجوی شما با'.' '.$number_of_rows.' '.'رکورد در دیتابیس مطابقت دارد.';
-    // $output['applicant']['firstName']='success';
-    // $output['spouse']['firstName']='success';
-    // $output['children'][0]['firstName']='success';
+        $conn = null;
+}
+function query_fetch(){
+    $records=array();  // the record of results
+    global $output,$db_servername, $db_username, $db_password;
+    // Create connection
+    try {
+        $conn = new PDO("mysql:host=$db_servername;dbname=mygreencard;charset=utf8", $db_username, $db_password);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch (PDOException $e) {
+            $output['error']=true;          
+            $output['error'][]='Databsase Error,'.'Connection failed: ' . $e->getMessage();
+    } 
+    $sql="SELECT * FROM applicant";
+    try {
+        $stmt = $conn->query($sql);
+    } catch (PDOException $e) {
+        $output['error']=true;        
+        $output['error'][]='Databsase Error,'.'Query Failed: ' . $e->getMessage();
+    }
+    $number_of_rows=$stmt->rowCount();
+    // Get all applicant matching the query
+    $applicants = $stmt->fetchAll(PDO::FETCH_ASSOC);  // Select All Applicants matching the query
+    //Iterate over ech applicatn and store spouse and children if exit
+    $index=0;
+    foreach($applicants as $applicant)
+    {
+        $records[$index]['applicant']=$applicant;
+        $applicantID=$applicant['ID'];
+        if($applicant['hasSpouse']){ // if applicant has spouse fill it
+            $sql="SELECT * FROM spouse WHERE ApplicantID=$applicantID";    
+            try {
+                $stmt = $conn->query($sql);
+            } catch (PDOException $e) {
+                $output['error']=true;        
+                $output['error'][]='Databsase Error,'.'Query Failed: ' . $e->getMessage();
+            }       
+            $spouse = $stmt->fetchAll(PDO::FETCH_ASSOC)[0];  // Select All Applicants matching the query            
+            $records[$index]['spouse']=$spouse;
+        } else {
+            $records[$index]['spouse']=null;            
+        }
+        if($applicant['hasChildren']){ // if applicant has spouse fill it
+            $sql="SELECT * FROM children WHERE ApplicantID=$applicantID";    
+            try {
+                $stmt = $conn->query($sql);
+            } catch (PDOException $e) {
+                $output['error']=true;        
+                $output['error'][]='Databsase Error,'.'Query Failed: ' . $e->getMessage();
+            }       
+            $children = $stmt->fetchAll(PDO::FETCH_ASSOC);  // Select All Applicants matching the query            
+            $records[$index]['children']=$children;
+        } else {
+            $records[$index]['children']=null;            
+        }
+        $index++;
+    }
+    //put result to output
+    $output['records']=$records;
+    $output['totalRows']=$number_of_rows;
+    //return message and error
+    $output['error']=false;;
+    $output['message']='نتیجه آخرین جستجوی شما با'.' '.$number_of_rows.' '.'رکورد در دیتابیس مطابقت دارد.';
+    $conn = null;
+}
+function query_delete(){
+    global $output,$db_servername, $db_username, $db_password;
+    // Create connection
+    try {
+        $conn = new PDO("mysql:host=$db_servername;dbname=mygreencard;charset=utf8", $db_username, $db_password);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch (PDOException $e) {
+            $output['error']=true;          
+            $output['error'][]='Databsase Error,'.'Connection failed: ' . $e->getMessage();
+    } 
+    if(!isset($_POST["ID"])){
+        $output['error']=true;        
+        $output['error'][]='No ID is send';
+    }
+    $ID=$_POST["ID"];
+    $sql="DELETE FROM applicant WHERE ID=$ID";
+    try {
+        $stmt = $conn->query($sql);
+    } catch (PDOException $e) {
+        $output['error']=true;        
+        $output['error'][]='Delete Operation Failed ' . $e->getMessage();
+    }
+    $number_of_rows=$stmt->rowCount();
+    //put result to output
+    $output['totalRows']=$number_of_rows;
+    //return message and error
+    $output['error']=false;;
+    $output['message']='تعداد '.' '.$number_of_rows.' '.'رکورد از دیتابیس حذف شد.';
     $conn = null;
 }
 function test_input($data) {
-    // $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;

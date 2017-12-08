@@ -71,7 +71,7 @@ if(file_exists($targetFileName)){
         throw new RuntimeException('آپلود فایل به سرور ناموفق بود.');
     }  
    // Do somshing on successful upload
-$output['imageURL']=$targetFileName;
+$output['imageURL']=str_replace('..\\','',$targetFileName);
 //$img='<img src='.$targetFileName.' class="file-preview-image" alt="Desert" title="Desert">';
 //$output=['initialPreview'=> $img ];
    
