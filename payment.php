@@ -51,12 +51,13 @@
     </script>
 </head>
 <?php
+        include_once("scripts/config.php");
+        include_once("scripts/functions.php");        
         include_once("scripts/payir/functions.php");
         include_once("scripts/register.php");        
         // $redirect = urlencode('http://mygreencard.ir'.$_SERVER['PHP_SELF']);
-        $redirect = urlencode('http://localhost//'.$_SERVER['PHP_SELF']);
+        $redirect = urlencode('http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']);
         $factorNumber = null;
-        $api = 'test';
         $amout=0;
         $mobile=null;
         $traceNumber=null;
@@ -185,7 +186,7 @@
 // Function to check uniqness of TransID in DB
 function isUniqueTransId($TransId){
         // see if transId is uinque in the database
-    include_once("scripts/config.php");
+        global  $db_servername,$db_username,$db_password;    
     try {
         $conn = new PDO("mysql:host=$db_servername;dbname=mygreencard;charset=utf8", $db_username, $db_password);
         // set the PDO error mode to exception

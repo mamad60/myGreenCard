@@ -80,11 +80,6 @@ hr.style-four {
     box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
 }
 
-#firstStageError>i,
-#secondStageError>i {
-    cursor: pointer;
-}
-
 #authonticationError {
     position: absolute;
     top: 50%;
@@ -145,4 +140,28 @@ hr.style-four {
     #searchTransID {
         max-width: 60px;
     }
+}
+[id$=template]{
+    display:none;
+}
+/* #regCode label,
+#spouseRegCode label {
+    font-weight: 500;
+} */
+
+#regCodes h4 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.Error{
+color: red;
+}
+.Success{
+    color:green;
+}
+#registerMessage{
+    font-size: 16px;
+    font-weight: bold;
+    margin-top:20px;
+    margin-bottom:20px;
 }

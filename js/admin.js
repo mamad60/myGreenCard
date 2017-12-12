@@ -7,7 +7,7 @@ function copyToClipboard(element) {
     document.execCommand('copy');
     $temp.remove();
     $(element).tooltip('show');
-    setTimeout(function() {
+    setTimeout(function () {
         $(element).tooltip('hide');
     }, 1000);
 }
@@ -17,7 +17,7 @@ var Model = {
         spouse: {},
         children: [{}]
     }],
-    query_delete: function(recordID) {
+    query_delete: function (recordID) {
         var dataSend = {
             function: 'query_delete',
             ID: recordID
@@ -27,7 +27,7 @@ var Model = {
             type: 'post',
             dataType: 'JSON',
             data: $.param(dataSend)
-        }).done(function(response) {
+        }).done(function (response) {
             // Sucssessful
             if (!response.error) {
                 if (View.totalRows > 1) {
@@ -39,7 +39,7 @@ var Model = {
             } else {
                 $('#adminSearchResult').text(response.message).removeClass('text-success').addClass('text-danger');
             }
-        }).fail(function(jqXHR, textStatus, errorThrown) {
+        }).fail(function (jqXHR, textStatus, errorThrown) {
             // Log the error to the console
             // console.error('The following error occurred: ' + textStatus,
             //     errorThrown);
@@ -47,16 +47,44 @@ var Model = {
                 'مشکلی در ارسال و دریافت اطلاعات رخ داده است.').removeClass('text-success').addClass('text-danger');
             return false;
         });
+    },
+    register: function (recordID) {
+        var dataSend = {
+            function: 'admin_register',
+            ID: recordID,
+            siteRegCode: $('#register #siteRegCode').val(),
+        };
+        if (Model.records[View.currentRow].applicant.spouseToo == '1') {
+            dataSend.spouseSiteRegCode = $('#register #siteRegCodeSpouse').val();
+        }
+        $.ajax({
+            url: 'scripts/ajaxphpfunctions.php',
+            type: 'post',
+            dataType: 'JSON',
+            data: $.param(dataSend)
+        }).done(function (response) {
+            // Sucssessful
+            if (!response.error) {
+                $('#registerMessage').text('رکورد با موفقیت در دیتابیس ثبت نام شد').removeClass('Error').addClass('Success').show();
+                $('#finalRegister').prop('disabled', true);
+            } else {
+                $('#registerMessage').text(response.message).removeClass('Success').addClass('Error').show();
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            $('#registerMessage').text('مشکلی در ارسال و دریافت اطلاعات رخ داده است').removeClass('Success').addClass('Error').show();
+            return false;
+        });
+
     }
 };
 
 var View = {
     currentRow: 0, // Index of Current Row startinf from 0
     totalRows: 0, //Total numbr of DB Rows Matched    
-    init: function() {
+    init: function () {
         //initilize view
         // bind event to logout
-        $('#logout').click(function() {
+        $('#logout').click(function () {
             $.post('scripts/ajaxphpfunctions.php', {
                 'function': 'admin_logout'
             });
@@ -64,7 +92,7 @@ var View = {
             window.location.href = 'index.php';
         });
         // bind event to Serch Form Submit
-        $('#searchSubmit').click(function() {
+        $('#searchSubmit').click(function () {
             // Fire off the request to form.php
             var dataSend = $('#searchForm').serialize();
             dataSend += '&function=admin_query';
@@ -73,7 +101,7 @@ var View = {
                 type: 'post',
                 dataType: 'JSON',
                 data: dataSend
-            }).done(function(response) {
+            }).done(function (response) {
                 // Sucssessful
                 if (!response.error) {
                     $('#adminSearchResult').text(response.message).removeClass(
@@ -85,7 +113,7 @@ var View = {
                     $('#adminSearchResult').text(response.message).removeClass(
                         'text-success').addClass('text-danger');
                 }
-            }).fail(function(jqXHR, textStatus, errorThrown) {
+            }).fail(function (jqXHR, textStatus, errorThrown) {
                 // Log the error to the console
                 // console.error('The following error occurred: ' + textStatus,
                 //     errorThrown);
@@ -94,27 +122,35 @@ var View = {
                     'text-success').addClass('text-danger');
                 return false;
             });
+
         });
-        $('#nextRecord,#nextRecord1').click(function() {
+        $('#nextRecord,#nextRecord1').click(function () {
             View.nextRecord();
         });
-        $('#prevRecord,#prevRecord1').click(function() {
+        $('#prevRecord,#prevRecord1').click(function () {
             View.prevRecord();
         });
-        $('#reLoad,#reLoad1').click(function() {
+        $('#reLoad,#reLoad1').click(function () {
             View.reLoad('last');
         });
-        $('#firstRecord,#firstRecord1').click(function() {
+        $('#firstRecord,#firstRecord1').click(function () {
             View.firstRecord();
         });
-        $('#lastRecord,#lastRecord1').click(function() {
+        $('#lastRecord,#lastRecord1').click(function () {
             View.lastRecord();
         });
-        $('#deleteRecord').click(function() {
+        $('#deleteRecord').click(function () {
             if (window.confirm('آیا واقعا مایل به حذف رکورد جاری از دیتابیس هستید؟'))
                 Model.query_delete(Model.records[View.currentRow].applicant.ID);
         });
-        //initiate tooltip and activate it on sucessful copy
+        //Register Button
+        $('#registerRecord,#registerRecord1').click(function () {
+            if (Model.records[View.currentRow].applicant.registered != 1) {
+                View.register(View.currentRow);
+            }
+        });
+
+        //initiate tooltip and activate it on sucessful copy}
         $('.imgCopy').tooltip({
             title: 'Copied',
             trigger: 'manual'
@@ -122,7 +158,7 @@ var View = {
 
         //Initiate Clipborad js for all text and tel inputs
         var clipboard = new Clipboard('.copy', {
-            target: function(trigger) {
+            target: function (trigger) {
                 return trigger.parentNode.parentNode.childNodes[1];
             }
         });
@@ -131,15 +167,15 @@ var View = {
             title: 'Copied',
             trigger: 'manual'
         });
-        clipboard.on('success', function(e) {
+        clipboard.on('success', function (e) {
             $(e.trigger).tooltip('show');
-            setTimeout(function() {
+            setTimeout(function () {
                 $(e.trigger).tooltip('hide');
             }, 1500);
             e.clearSelection();
         });
     },
-    reLoad: function(position) {
+    reLoad: function (position) {
         // first:'first; ,last:'last' current:enter position:enter positon
         var dataSend = {
             function: 'query_fetch'
@@ -149,7 +185,7 @@ var View = {
             type: 'post',
             dataType: 'JSON',
             data: $.param(dataSend)
-        }).done(function(response) {
+        }).done(function (response) {
             // Sucssessful
             if (!response.error) {
                 $('#adminSearchResult').text(response.message).removeClass('text-danger').addClass('text-success');
@@ -173,7 +209,7 @@ var View = {
             } else {
                 $('#adminSearchResult').text(response.message).removeClass('text-success').addClass('text-danger');
             }
-        }).fail(function(jqXHR, textStatus, errorThrown) {
+        }).fail(function (jqXHR, textStatus, errorThrown) {
             // Log the error to the console
             // console.error('The following error occurred: ' + textStatus,
             //     errorThrown);
@@ -182,8 +218,13 @@ var View = {
             return false;
         });
     },
-    fillFields: function(index) {
+    fillFields: function (index) {
+        // Reset Form
         $('#resultForm').trigger('reset');
+        // if Regform exits remove it
+        if ($('#register').length) {
+            $('#register').remove();
+        }
         View.currentRow = index;
         View.updateFields(index);
         //Main Applicant
@@ -242,7 +283,7 @@ var View = {
             $('#children').hide();
         }
     },
-    nextRecord: function() {
+    nextRecord: function () {
         if (this.currentRow == this.totalRows - 1) { // nest record not exiests
             return;
         }
@@ -257,7 +298,7 @@ var View = {
         this.currentRow++;
         this.fillFields(this.currentRow);
     },
-    prevRecord: function() {
+    prevRecord: function () {
         if (this.currentRow == 0) { // prev record not exists
             this.toggleButtons('first');
             return;
@@ -271,15 +312,15 @@ var View = {
         this.currentRow--;
         this.fillFields(this.currentRow);
     },
-    firstRecord: function() { // go to first record of the resutlt
+    firstRecord: function () { // go to first record of the resutlt
         this.toggleButtons('first');
         this.fillFields(0);
     },
-    lastRecord: function() { // got to last record of the resutlt
+    lastRecord: function () { // got to last record of the resutlt
         this.toggleButtons('last');
         this.fillFields(this.totalRows - 1);
     },
-    toggleButtons: function(position) { // Toggle button on ends
+    toggleButtons: function (position) { // Toggle button on ends
         switch (position) {
             case 'first': // all enabled exept go back
                 //===enabled           
@@ -304,7 +345,7 @@ var View = {
                 $('#lastRecord,#lastRecord1').prop('disabled', false);
         }
     },
-    creatFillChildren: function(index) {
+    creatFillChildren: function (index) {
         // Create childen and fill it with associated DATA from DB
         var childNumber = parseInt(Model.records[index].applicant.ChildNumber);
         for (var childIndex = 0; childIndex < childNumber; childIndex++) {
@@ -334,7 +375,7 @@ var View = {
         }
 
     },
-    updateFields: function(index) {
+    updateFields: function (index) {
         var yes = 'بلی';
         var no = 'خیر';
         $('#recordNumber,#recordNumber1').text('رکورد ' + String(index + 1) + ' ' + 'از' + ' ' + View.totalRows);
@@ -352,16 +393,84 @@ var View = {
         } else {
             $('#s_spouseReg').html(no);
         }
+        //Registraitoin Status
         if (Model.records[index].applicant.registered == '1') {
             $('#s_registered').html(yes);
+            // disable registration Buttons
+            $('#registerRecord,#registerRecord1').prop('disabled', true);
         } else {
             $('#s_registered').html(no);
+            //Enable Registriation Buttons
+            $('#registerRecord,#registerRecord1').prop('disabled', false);
         }
+
+    },
+    register: function (index) {
+        // if registration form already exists do nothing
+        if ($('#register').length) {
+            return;
+        }
+        // Show the registarin form
+        var $register = $('#register-template').clone().attr('id', 'register').show().insertBefore('#searchForm');
+        //rename registraiton button
+        $register.find('#finalRegister-template').attr('id', 'finalRegister').show();
+        //rename registration  message
+        $register.find('#registerMessage-template').attr('id', 'registerMessage');
+        //rename main applicant
+        $register.find('#applicantReg-template').attr('id', 'applicantReg').show();
+        // If applicant has spouse
+        if (Model.records[index].applicant.hasSpouse == '1') {
+            $register.find('#spouseReg-template').attr('id', 'spouseReg').show();
+        }
+        //If applicant has children
+        if (Model.records[index].applicant.hasChildren == '1') {
+            var childNumber = parseInt(Model.records[index].applicant.ChildNumber);
+            $register.find('#childReg-template').attr('id', 'childReg').show();
+            for (var i = 1; i <= childNumber; i++) {
+                $('#childCheck-template').clone().attr('id', 'childCheck' + String(i)).appendTo('#childReg').show();
+                $('#childCheck' + String(i) + ' span').text('فرزند شماره ' + String(i));
+
+            }
+        }
+
+        //show registration box-applicant
+        $register.find('#regCodes-template').attr('id', 'regCodes').show();
+        $('#regCodes').find('#siteRegCode-template').attr('id', 'siteRegCode').show();
+        // if the registration of the spouse is requested
+        if (Model.records[index].applicant.spouseToo == '1') {
+            // show the spouse confirmation
+            $register.find('#spouseRegToo-template').attr('id', 'spouseRegToo').show();
+            $('#spouseRegToo').find('#spouseTooCheck-template').attr('id', 'spouseTooCheck').show();
+            //show the spouse registiran code
+            $('#regCodes').find('#spouseRegCode-template').attr('id', 'spouseRegCode').show();
+            $('#spouseRegCode').find('#siteRegCodeSpouse-template').attr('id', 'siteRegCodeSpouse').show();
+        }
+        // remove templates
+        $register.find('[id$=template]').remove();
+        // Final Record Registration
+        $('#finalRegister').click(function () {
+            $('#register .Error').removeClass('Error');
+            $('#registerMessage').hide();
+            // Check If all required checkboxes is checked
+            if (($('#register input[type=checkbox]:checked').length == $('#register input[type=checkbox]').length) && $('#siteRegCode').val() != '' && $('#siteRegCodeSpouse').val() != '') {
+                Model.register(Model.records[View.currentRow].applicant.ID);
+            } else { // on Error
+                $('#registerMessage').removeClass('Success').addClass('Error').text('لطفا مراحل مشخص شده با رنگ قرمز را انجام دهید').show();
+                $('#register input[type=checkbox]:not(:checked)').parent().addClass('Error');
+                if ($('#siteRegCode').val() == '') {
+                    $('#siteRegCode').prev().addClass('Error');
+                }
+                if ($('#siteRegCodeSpouse').val() == '') {
+                    $('#siteRegCodeSpouse').prev().addClass('Error');
+                }
+            }
+        });
+
 
     }
 };
 //
-$(document).ready(function() {
+$(document).ready(function () {
     //Load header 
     $('nav').load('menu.html');
     //initialize view

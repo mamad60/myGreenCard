@@ -6,5 +6,8 @@
     //User Name and Passeord for Administrator
     $admin_user="m";
     $admin_password="123456";
+    // payment api 
+    $api = 'test';    
+    
 
 ?>

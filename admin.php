@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<?php session_start();?>
+<?php session_start(); ?>
 <html lang="fa" dir="rtl">
 
 <head>
@@ -41,29 +41,29 @@
 <body>
     <nav></nav>
     <?php
-    include_once("scripts/config.php");  
-    $authContainer='    <div id="authonticationError" class="text-center text-danger">شما اجازه دسترسی به این صفحه را ندارید.</div>
-    ' ;
-    $username="";
+    include_once("scripts/config.php");
+    $authContainer = '    <div id="authonticationError" class="text-center text-danger">شما اجازه دسترسی به این صفحه را ندارید.</div>
+    ';
+    $username = "";
     if (!isset($_SESSION["Authonticated"]) || !$_SESSION["Authonticated"]) {
-            echo $authContainer;
-                echo "<script type=\"text/javascript\">
+        echo $authContainer;
+        echo "<script type=\"text/javascript\">
                 // Load Header
                 $('nav').load('menu.html');                
                 setTimeout(function(){history.back();}, 3000);
             </script>";
-            exit;
-            }
-            if(isset($_SESSION["AdminUser"])){
-                $admin_user=$_SESSION["AdminUser"];
-            }
+        exit;
+    }
+    if (isset($_SESSION["AdminUser"])) {
+        $admin_user = $_SESSION["AdminUser"];
+    }
 
-        ?>
+    ?>
         <div id="adminPage" class="container">
             <div class="container" id="topStrip">
                 <div class="col-md-6 text-right" id="welcomeMessage">
                     مدیر محترم کاربر
-                    <?php echo $admin_user?> خوش آمدید
+                    <?php echo $admin_user ?> خوش آمدید
                 </div>
                 <div class="col-md-6 text-left">
                     <a href="#" id="logout">خروج</a>
@@ -557,36 +557,45 @@
                         </fieldset>
                     </div>
                 </div>
-                <div id="register" class="stage" style="display:none;">
+                <div id="register-template" class="stage">
                     <fieldset>
-                        <h2>ثبت نام</h2>
-                        <div id="RegChecklist" class="row col-sm-12">
-                            <h4> چک لیست ثبت نام:</h4>
-                            <div class="col-sm-4">
+                        <h2 class="row col-sm-12"> ثبت نام</h2>
+                        <div>
+                            <h4 class="row col-sm-12"> چک لیست ثبت نام:</h4>
+                            <div class="col-sm-4" id="applicantReg-template">
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" value="" id="applicantCheck">ثبت نام متقاضی
+                                    <input type="checkbox" value="">ثبت نام متقاضی
                                 </label>
                             </div>
-                            <div class="col-sm-4" id="spouseReg" style="display:none;">
+                            <div class="col-sm-4" id="spouseReg-template">
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" value="" id="spouseCheck">ثبت نام همسر
+                                    <input type="checkbox" value="">ثبت نام همسر
                                 </label>
                             </div>
-                            <div class="col-sm-4" id="childReg" style="display:none;">
+                            <div class="col-sm-4" id="childReg-template">
+                                <label class="checkbox-inline" id="childCheck-template">
+                                    <input type="checkbox" value=""><span> ثبت نام فرزند 1</span>
+                                </label>
+                            </div>
+                            <div class="col-sm-12" id="spouseRegToo-template">
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" value="" id="child1Check"> ثبت نام فرزند 1
+                                    <input type="checkbox" value="">آیا تمامی این موارد را برای همسر متقاضی نیز انجام داده اید(ثبت نام همسر)؟
                                 </label>
                             </div>
                         </div>
-                        <div id="RegCodes" class="row col-sm-12">
-                            <h4>کد ثبت نام سایت DV-Lottery:</h4>
+                        <div class="row col-sm-12" id="regCodes-template">
+                            <h4 class="row col-sm-12">کد ثبت نام سایت DV-Lottery:</h4>
                             <div class="col-sm-6">
-                                <label for="siteRegCode" style="font-weight:500;">کد ثبت نام متقاضی:</label>
-                                <input type="text" id="siteRegCode" value="">
+                                <label for="siteRegCode">کد ثبت نام متقاضی:</label>
+                                <input type="text" id="siteRegCode-template" value="">
                             </div>
-                            <div class="col-sm-6" id="spouseCode" style="display:none;">
-                                <label for="siteRegCodeSpouse" style="font-weight:500;">کد ثبت نام همسر:</label>
-                                <input type="text" id="siteRegCodeSpouse" value="">
+                            <div class="col-sm-6" id="spouseRegCode-template">
+                                <label for="siteRegCodeSpouse">کد ثبت نام همسر:</label>
+                                <input type="text" id="siteRegCodeSpouse-template" value="">
+                            </div>
+                            <div class="row col-sm-12 text-center" id="registerMessage-template"></div>
+                            <div class="row col-sm-12 text-center">
+                                <input type="button" class="btn btn-success" id="finalRegister-template" value="ثبت نام متقاضی">
                             </div>
                         </div>
                     </fieldset>
