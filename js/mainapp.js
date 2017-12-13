@@ -12,7 +12,7 @@ $(document).ready(function() {
     });
     // Initiatate Fu;ll page plugin
     $('#fullpage').fullpage({
-        sectionsColor: ['#1bbc9b', '#4BBFC3', '#7BAABE', '#BE80FF', '#23a39a', '#313131'],
+        sectionsColor: ['#1bbc9b', '#4BBFC3', '#7BAABE', '#E4AEC7', '#23a39a', '#313131'],
         anchors: ['dv-lottery-intro', 'dv-lottery-advantages', 'greencard-samples',
             'dv-lottery-photo', 'dv-lottery-registration', 'footer'
         ],

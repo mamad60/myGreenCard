@@ -761,6 +761,8 @@
     <script src="js/persianDateTimePicker/jquery.Bootstrap-PersianDateTimePicker.js" type="text/javascript"></script>
     <!-- JQuery Redirect Plugin -->
     <script src="js/redirect/jquery.redirect.js" type="text/javascript"></script>
+    <!-- Session Check -->
+    <script src="js/session.js"></script>
     <!--Site Specefic-->
     <script src="js/formapp.js"></script>
 </body>

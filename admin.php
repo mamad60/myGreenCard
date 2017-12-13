@@ -652,6 +652,7 @@
         </div>
         <footer></footer>
         <script src="js/clipboradjs/clipboard.min.js"></script>
+        <script src="js/session.js"></script>
         <script src="js/admin.js"></script>
 </body>
 

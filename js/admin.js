@@ -88,8 +88,8 @@ var View = {
             $.post('scripts/ajaxphpfunctions.php', {
                 'function': 'admin_logout'
             });
-            // go back
-            window.location.href = 'index.php';
+            // // go back
+            window.location.href = 'adminlogin.php';
         });
         // bind event to Serch Form Submit
         $('#searchSubmit').click(function () {
@@ -473,6 +473,8 @@ var View = {
 $(document).ready(function () {
     //Load header 
     $('nav').load('menu.html');
+    //Set Session
+    set_session('admin',1000*60*30);// check every 30 minutes
     //initialize view
     View.init();
     View.reLoad('last'); // get query form DB and shoe the first record 

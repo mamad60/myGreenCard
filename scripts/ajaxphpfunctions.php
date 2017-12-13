@@ -45,8 +45,10 @@ function hide_contact()
 function admin_logout()
 {
     $_SESSION["Authonticated"] = false;
-    unset($_SESSION['AdminName']);
-    $_SESSION["loginAttemps"] = 0;
+    if (isset($_SESSION)) {
+        session_destroy();
+        unset($_SESSION);
+    }
     return 1;
 }
 // return searched values form DB

@@ -24,7 +24,7 @@
                 hasChildren: false,
             },
             //==============Methods
-            save: function() {
+            save: function () {
                 // saves validated data after form sumbit for later use
                 this.items.FirstName_fa = $('#mainFirstName_fa').val();
                 this.items.LastName_fa = $('#mainLastName_fa').val();
@@ -71,7 +71,7 @@
                 Photouploaded: false
             },
             //============methods
-            save: function() {
+            save: function () {
                 // saves validated data after form sumbit for later use
                 this.items.FirstName_fa = $('#spouseFirstName_fa').val();
                 this.items.LastName_fa = $('#spouseLastName_fa').val();
@@ -88,7 +88,7 @@
         children: {
             items: [],
             //===========Methods======================
-            createChild: function() { // funciton to create each child
+            createChild: function () { // funciton to create each child
                 var obj = {
                     FirstName_fa: '',
                     LastName_fa: '',
@@ -104,9 +104,9 @@
                 };
                 return obj;
             },
-            save: function() {
+            save: function () {
                 // Save children info into the Model
-                model.children.items.forEach(function(item, index) {
+                model.children.items.forEach(function (item, index) {
                     var I = index + 1; //Skip template value            
                     item.FirstName_fa = $('input[name="childFirstName_fa"]').eq(I).val();
                     item.LastName_fa = $('input[name="childLastName_fa"]').eq(I).val();
@@ -129,7 +129,7 @@
             isPayed: false, // is the charge payed
             spouseToo: false, // Register spouse too with
             // ==Methods==>Calcutlate Charge
-            calculateCharge: function() {
+            calculateCharge: function () {
                 var total = this.single;
                 if (model.applicant.items.hasSpouse) {
                     total += this.spouse;
@@ -145,7 +145,7 @@
         },
         TrackingCode: '',
         // ===Methods
-        toGeorgian: function(jallaliDate) { //Convert date to Gerorgian
+        toGeorgian: function (jallaliDate) { //Convert date to Gerorgian
             if (!jallaliDate) {
                 return '';
             }
@@ -153,7 +153,7 @@
             var georgian = toGregorian(parseInt(jallali[0]), parseInt(jallali[1]), parseInt(jallali[2]));
             return georgian.gy + '/' + georgian.gm + '/' + georgian.gd;
         },
-        sendnSave: function() { //send data to server by ajax request and recive proce. ID
+        sendnSave: function () { //send data to server by ajax request and recive proce. ID
             // First Disable Payement and Sumbit Buttons
             $('#payandSubmit,#prevprevStage3,#prevStage3').attr('disabled', true);
             //Run the payment function-Ask for Payment
@@ -184,19 +184,19 @@
     //==============View==========================================================
     var view = {
         preStage: {
-            show: function() {
+            show: function () {
                 $('#progressBar li').eq(0).addClass('activeProgress');
                 $('#preStageContainer').fadeIn('slow');
                 $('#captchaString').focus();
             },
-            next: function() {
+            next: function () {
                 $('#preStageContainer').fadeOut('fast');
                 view.firstStage.show();
             }
         },
         firstStage: {
             //-----Methods-------
-            init: function() {
+            init: function () {
                 //first initilize FileUpload Jquery Plugin
                 $('#mainPhoto').fileinput({
                     language: 'fa',
@@ -430,7 +430,7 @@
                         }
                     });
                 // Event handler for succefull upload
-                $('#mainPhoto').on('fileuploaded', function(event, data, previewId, index) {
+                $('#mainPhoto').on('fileuploaded', function (event, data, previewId, index) {
                     model.applicant.items.Photouploaded = true;
                     model.applicant.items.PhotoURL = data.response.imageURL;
                     $(this).parents('.form-group').removeClass('has-error').addClass('has-feedback has-success');
@@ -446,15 +446,15 @@
                     EnglishNumber: true
                 });
                 // Correct Validation
-                $('#mainBirthDate').change(function() {
+                $('#mainBirthDate').change(function () {
                     var bootstrapValidator = $('#mainApplicantForm').data('bootstrapValidator');
                     bootstrapValidator.revalidateField('mainBirthDate');
                 });
             },
-            render: function() {
+            render: function () {
                 $('#firstStageContainer').slideDown('slow');
             },
-            show: function() {
+            show: function () {
                 // Change active Progress Bar
                 $('.activeProgress').removeClass('activeProgress');
                 $('#progressBar li').eq(1).addClass('activeProgress');
@@ -462,7 +462,7 @@
                 // $('#mainApplicantForm *:input[type=text]:first').focus();
                 $(window).scrollTop(0);
             },
-            next: function() {
+            next: function () {
                 // Save date
                 model.applicant.save();
                 // hide current form
@@ -470,7 +470,7 @@
                 //Show the Next Stage
                 view.secondStage.show();
             },
-            isPhotosUploaded: function() {
+            isPhotosUploaded: function () {
                 // Spouse photo
                 var isUploaded = true;
                 if (!model.applicant.items.Photouploaded) {
@@ -480,7 +480,7 @@
                 }
                 return isUploaded;
             },
-            reset: function() {
+            reset: function () {
                 //reset form exept the upload section
                 $('#mainApplicantForm input[type="text"]').val('');
                 $('#mainApplicantForm input[type="tel"]').val('');
@@ -501,7 +501,7 @@
         },
         secondStage: {
             //-----Methods-------
-            init: function() {
+            init: function () {
                 // view=0: initiate spouse  view=1: initiate spouse 
                 //initilize FileUpload Jquery Plugin for spouse
                 $('#spousePhoto').fileinput({
@@ -667,19 +667,19 @@
                     EnglishNumber: true
                 });
                 // correct Date Validaiton
-                $('#spouseBirthDate').change(function() {
+                $('#spouseBirthDate').change(function () {
                     var bootstrapValidator = $('#spouseChildrenForm').data('bootstrapValidator');
                     bootstrapValidator.revalidateField('spouseBirthDate');
                 });
                 // Event handler for succefull upload
-                $('#spousePhoto').on('fileuploaded', function(event, data) {
+                $('#spousePhoto').on('fileuploaded', function (event, data) {
                     model.spouse.items.Photouploaded = true;
                     model.spouse.items.PhotoURL = data.response.imageURL;
                     $(this).parents('.form-group').removeClass('has-error').addClass('has-feedback has-success');
                     $('#spousePhotoErrors').hide();
                 });
             },
-            render: function(viewIndex) {
+            render: function (viewIndex) {
                 if (viewIndex == 0) { //show spouse
                     $('#spouse').show();
                 }
@@ -720,7 +720,7 @@
                     $('#children').show();
                 }
             },
-            show: function() {
+            show: function () {
                 // Change active Progress Bar
                 $('.activeProgress').removeClass('activeProgress');
                 $('#progressBar li').eq(2).addClass('activeProgress');
@@ -746,7 +746,7 @@
                 $(window).scrollTop(0);
 
             },
-            next: function() {
+            next: function () {
                 // Save data
                 if (model.applicant.items.hasSpouse) {
                     model.spouse.save();
@@ -759,13 +759,13 @@
                 //Show the Next Stage
                 view.thirdStage.show();
             },
-            prev: function() { // Show the privious stage
+            prev: function () { // Show the privious stage
                 // hide current form
                 $('#secondStageContainer').fadeOut('slow');
                 //Show the Next Stage
                 view.firstStage.show();
             },
-            initiatePlugins: function(num) {
+            initiatePlugins: function (num) {
                 // Childern Numbering  Index & names)
                 var childDate = 'childBirthDate' + num;
                 var childGender = 'childGender' + num;
@@ -781,7 +781,7 @@
                     EnglishNumber: true
                 });
                 //Correct Validaiton
-                $('#' + childDate).change(function() {
+                $('#' + childDate).change(function () {
                     var bootstrapValidator = $('#spouseChildrenForm').data('bootstrapValidator');
                     bootstrapValidator.revalidateField('#' + childDate);
                 });
@@ -936,7 +936,7 @@
                 });
 
                 // Event handler for succefull upload for childs
-                $('#' + childPhoto).on('fileuploaded', function(event, data) {
+                $('#' + childPhoto).on('fileuploaded', function (event, data) {
                     var i = parseInt($(this).attr('id').replace('childPhoto', '')) - 1;
                     model.children.items[i].Photouploaded = true;
                     model.children.items[i].PhotoURL = data.response.imageURL;
@@ -944,7 +944,7 @@
                     $(('#childPhotoErrors' + String(i + 1))).hide();
                 });
             },
-            isPhotosUploaded: function() {
+            isPhotosUploaded: function () {
                 // Spouse photo
                 var isUploaded = true;
                 if (model.applicant.items.hasSpouse) {
@@ -965,7 +965,7 @@
                 }
                 return isUploaded;
             },
-            reset: function() {
+            reset: function () {
                 //reset form exept the upload section
                 $('#spouseChildrenForm input[type="text"]').val('');
                 $('#spouseChildrenForm input[type="tel"]').val('');
@@ -997,7 +997,7 @@
                 $(window).scrollTop(0);
 
             },
-            removeChilds: function() {
+            removeChilds: function () {
                 var oldChild = $('#children').children().length - 2; //Number of all chils in DOM
                 var diff = oldChild - model.applicant.items.ChildNumber; //Number of removed Elements
                 if (diff > 0) {
@@ -1011,7 +1011,7 @@
             }
         },
         thirdStage: {
-            render: function() {
+            render: function () {
                 // Disable/Enable prev-prev based on status
                 if (!(model.applicant.items.hasSpouse && model.applicant.items.hasChildren)) {
                     $('#prevStage3').attr('disabled', true);
@@ -1032,7 +1032,7 @@
                 }
 
             },
-            renderPersonalInfo: function() {
+            renderPersonalInfo: function () {
                 // clone and rename template and remove Template from ID
                 $('#personalInfoPanel-Template').clone().attr('id', 'personalInfoPanel').appendTo('#personalInfo');
                 // Repalce place holders with form elements
@@ -1091,7 +1091,7 @@
                 //show the panel
                 $('#personalInfoPanel').show();
             },
-            renderSpouseInfo: function() {
+            renderSpouseInfo: function () {
                 // clone and rename template and remove Template from ID
                 $('#spouselInfoPanel-Template').clone().attr('id', 'spouseInfoPanel').appendTo('#spouseInfo');
                 // Repalce place holders with form elements
@@ -1126,7 +1126,7 @@
                 //show the panel
                 $('#spouseInfoPanel').show();
             },
-            renderChildrenInfo: function() {
+            renderChildrenInfo: function () {
                 // clone and rename template and remove Template from ID----> clone Outer Template
                 $('#childernInfoPanel-Template').clone().attr('id', 'childernInfoPanel').appendTo('#childrenInfo');
                 $('#childernInfoPanel #panelBody-Template').attr('id', 'panelBody');
@@ -1137,7 +1137,7 @@
                     $('#childernInfoPanel .panel-heading').html('2- مشخصات فرزندان');
                 }
                 // Iterate over childs and show their clientInformation.
-                model.children.items.forEach(function(item, index) {
+                model.children.items.forEach(function (item, index) {
                     var I = String(index + 1); // Begin Numbering from 1       
                     var id = 'childInfo' + I;
                     $('#childInfo-Template').clone().attr('id', id).appendTo('#panelBody');
@@ -1178,7 +1178,7 @@
                 //show the panel
                 $('#childernInfoPanel').show();
             },
-            renderPrice: function() {
+            renderPrice: function () {
                 //first Calcultate and store price
                 var price = 0;
                 var spouse = '';
@@ -1210,7 +1210,7 @@
                 $('#price').find('span').html(message);
                 $('#price').show();
             },
-            removePanels: function() { // Remove panels from Dom when going back in the Form
+            removePanels: function () { // Remove panels from Dom when going back in the Form
                 $('#personalInfoPanel').remove();
                 if ($('#spouseInfoPanel').length) {
                     $('#spouseInfoPanel').remove();
@@ -1220,7 +1220,7 @@
                 }
                 $('#price').hide();
             },
-            show: function() {
+            show: function () {
                 // Change active Progress Bar
                 $('.activeProgress').removeClass('activeProgress');
                 $('#progressBar li').eq(3).addClass('activeProgress');
@@ -1228,19 +1228,19 @@
                 view.thirdStage.render();
                 $('#thirdStageContainer').slideDown('slow');
             }, //===Previous  Stage 3--modify Spouse-Children info
-            prev: function() {
+            prev: function () {
                 if (model.applicant.items.hasSpouse || model.applicant.items.hasChildren) {
                     $('#thirdStageContainer').hide();
                     this.removePanels();
                     view.secondStage.show();
                 }
             }, //Previous-Previous  Stage 3--modify Personal info
-            prevPrev: function() {
+            prevPrev: function () {
                 $('#thirdStageContainer').hide();
                 this.removePanels();
                 view.firstStage.show();
             },
-            next: function(success) {
+            next: function (success) {
                 // Change active Progress Bar
                 $('.activeProgress').removeClass('activeProgress');
                 $('#progressBar li').eq(4).addClass('activeProgress');
@@ -1271,11 +1271,11 @@
 
         },
         //========Methods==========
-        init: function() {
+        init: function () {
             view.submitAttemps = 0; // Reset submit Attemps
             // Click events for submit button
             //==== Attatch event to submit button of stage 1
-            $('#nextStage1').click(function() {
+            $('#nextStage1').click(function () {
                 // Get plugin instance
                 var bootstrapValidator = $('#mainApplicantForm').data('bootstrapValidator');
                 bootstrapValidator.validate();
@@ -1288,7 +1288,7 @@
                 // }
             });
             //==== Attatch event to submit button of stage 2
-            $('#nextStage2').click(function() {
+            $('#nextStage2').click(function () {
                 // Get plugin instance
                 var bootstrapValidator = $('#spouseChildrenForm').data('bootstrapValidator');
                 bootstrapValidator.validate();
@@ -1301,7 +1301,7 @@
                 // }
             });
             //==== Attatch event PAY Botton---- stage 3
-            $('#payandSubmit').click(function() {
+            $('#payandSubmit').click(function () {
                 view.submitAttemps++;
                 if (view.submitAttemps <= view.maxSubmitLimit) {
                     $('#finalStageError').hide();
@@ -1311,7 +1311,7 @@
                 }
             });
             //===Attacth event to Captcha Submit button
-            $('#captchaSubmit').click(function() {
+            $('#captchaSubmit').click(function () {
                 var dataSend = {
                     reg_form_captcha: $('#captcha_code').val()
                 };
@@ -1323,7 +1323,7 @@
                     data: $.param(dataSend)
                 });
                 // Callback handler that will be called on success
-                request.done(function(response) {
+                request.done(function (response) {
                     // Sucssess ful captcha 
                     if (!response.error.length) {
                         $('#captchaError').hide();
@@ -1335,7 +1335,7 @@
                 });
 
                 // Callback handler that will be called on failure
-                request.fail(function(jqXHR, textStatus, errorThrown) {
+                request.fail(function (jqXHR, textStatus, errorThrown) {
                     // Log the error to the console
                     console.error('The following error occurred: ' + textStatus, errorThrown);
                     $('#captchaError').show();
@@ -1352,7 +1352,7 @@
             //     $('#captchaError').hide();
             // });
             // on spouseToochange
-            $('#spouseToo').change(function() {
+            $('#spouseToo').change(function () {
                 if ($('#spouseToo').prop('checked')) {
                     model.price.spouseToo = true;
                 } else {
@@ -1363,37 +1363,37 @@
             });
             // Attatch event to privious buttons
             //==== Attatch event to previous button of stage 2
-            $('#prevStage2').click(function() {
+            $('#prevStage2').click(function () {
                 view.secondStage.prev();
             });
             //===Previous-Previous  Stage 3--modify Personal info
-            $('#prevprevStage3').click(function() {
+            $('#prevprevStage3').click(function () {
                 view.thirdStage.prevPrev();
             });
             //===Previous  Stage 3--modify Spouse-Children info
-            $('#prevStage3').click(function() {
+            $('#prevStage3').click(function () {
                 view.thirdStage.prev();
             });
             // Attatch event to reset buttons
             // ===Reset Button of stage 1
-            $('#resetStage1').click(function(e) {
+            $('#resetStage1').click(function (e) {
                 e.preventDefault();
                 view.firstStage.reset();
             });
             // ===Reset Button of stage 2
-            $('#resetStage2').click(function(e) {
+            $('#resetStage2').click(function (e) {
                 e.preventDefault();
                 view.secondStage.reset();
             });
             //Print Button ---Stage 3
-            $('#printResult').click(function(e) {
+            $('#printResult').click(function (e) {
                 $('#printTitle').show();
                 window.print();
                 $('#printTitle').hide();
             });
 
             // Disdable number of children if Single  maridge status selected
-            $('#mainMaridgStatus').change(function(e) {
+            $('#mainMaridgStatus').change(function (e) {
                 var bootstrapValidator = $('#mainApplicantForm').data('bootstrapValidator');
                 if ($('#mainMaridgStatus option:selected').val() == 'Single') {
                     //    disable number of children
@@ -1406,7 +1406,7 @@
                 }
             });
             // hide Error Container when click on icon
-            $('#firstStageError>i,#secondStageError>i').click(function() {
+            $('#firstStageError>i,#secondStageError>i').click(function () {
                 $(this).parent().fadeOut('slow');
             });
 
@@ -1414,22 +1414,24 @@
             view.firstStage.init();
             view.secondStage.init();
         },
-        show: function() {
+        show: function () {
             view.preStage.show();
         },
         maxSubmitLimit: 3, // Maximum form sumbission tries allowed
         submitAttemps: 0 // stores number of submit attemps
     };
 
-    $(function() {
+    $(function () {
         // load contact us modal
         // $('#contactUs').load('contact-us.html');
         //Load header and Footer
         //======Navigation
-        $('nav').load('menu.html', function() {
+        $('nav').load('menu.html', function () {
             //===make current Page Active
             $('#myNavbar').find('li a[href="' + window.location.pathname.split('/').pop() + '"]').parent().addClass('active');
         });
+        //Set Session
+        set_session('user', 1000 * 60 * 15); // check every 15 minutes
         //Initiate Views
         view.init();
         //Show the the form
